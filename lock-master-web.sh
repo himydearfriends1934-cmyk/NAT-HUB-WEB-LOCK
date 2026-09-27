@@ -69,7 +69,7 @@ EOF
 
 unit_port() {
     [ -f "$UNIT_FILE" ] || die "${UNIT_FILE} was not found"
-    sed -nE 's/^[[:space:]]*ExecStart=.*-port=([0-9]+)([[:space:]]|$).*/\1/p' "$UNIT_FILE" | head -n 1
+    sed -nE 's/^[[:space:]]*ExecStart=.*[[:space:]]-port=([0-9]+)([[:space:]]|$).*/\1/p' "$UNIT_FILE" | head -n 1
 }
 
 ip_for_interface() {
@@ -224,7 +224,7 @@ lock_web() {
     iptables_add_rule "$interface" "$WEB_PORT"
     green "Master Web is now bound to ${BIND_HOST}:${WEB_PORT} (interface ${interface})."
     green "NPM can proxy to http://${BIND_HOST}:${WEB_PORT}; the public IP should refuse ${WEB_PORT}."
-    yellow "Node signaling remains unchanged. Check it with: ss -ltnp | grep ':${WEB_PORT}\\|:31177'"
+    yellow "Web port remains ${WEB_PORT}; node signaling remains unchanged. Check with: ss -ltnp"
     yellow "To restore the previous Master Web binding: $0 --restore"
 }
 
